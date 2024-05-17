@@ -1,0 +1,3 @@
+[submodule "assets/scripts/infinite-grid"]
+	path = assets/scripts/infinite-grid
+	url = git@gitlab.hlouis.com:ccc-extensions/infinite-grid.git
