@@ -1,7 +1,6 @@
 import { Component, Node, Size, _decorator, instantiate } from "cc";
 import { IFDataSource, InfiniteGrid } from "./infinite-grid/InfiniteGrid";
 import { InfiniteCell } from "./infinite-grid/InfiniteCell";
-import { CellA } from "./CellA";
 const { ccclass, property } = _decorator;
 
 @ccclass('Test')
@@ -12,6 +11,9 @@ export class Test extends Component implements IFDataSource {
 
     @property(Node)
     public cellA: Node;
+
+    @property(Node)
+    public cellB: Node;
 
     private m_data: {Id: number}[] = [];
 
@@ -38,17 +40,17 @@ export class Test extends Component implements IFDataSource {
         return this.m_data.length;
     }
 
-    GetCellIdentifer(dataIndex: number): string {
-        return this.m_data[dataIndex].Id.toString();
+    GetCellIdentifer(index: number): string {
+        return index % 3 == 2 ? 'cellA' : 'cellB';
     }
 
-    GetCellSize(dataIndex: number): Size {
-        return new Size(150, 80);
+    GetCellSize(index: number): Size {
+        return index % 3 == 2 ? new Size(150, 80) : new Size(170, 110);
     }
 
     GetCellView(index: number): InfiniteCell {
-        let node = instantiate(this.cellA);
-        return node.getComponent(CellA);
+        let node = index % 3 == 2 ? instantiate(this.cellA) : instantiate(this.cellB);
+        return node.getComponent('InfiniteCell') as InfiniteCell;
     }
 
     GetCellData(index: number): any {
