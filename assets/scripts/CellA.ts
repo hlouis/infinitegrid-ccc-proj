@@ -11,6 +11,6 @@ export class CellA extends InfiniteCell {
     public CallBack() {};
 
     public UpdateContent(data: any) {
-        this.Label.string = `${data.row} - ${data.Id}`;
+        this.Label.string = `${data.Id} - ${data.tag}`;
     }
 }
