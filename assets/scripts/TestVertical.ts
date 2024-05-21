@@ -3,55 +3,119 @@ import { IFDataSource, InfiniteGrid } from "./infinite-grid/InfiniteGrid";
 import { InfiniteCell } from "./infinite-grid/InfiniteCell";
 const { ccclass, property } = _decorator;
 
+/**
+ * @en Test class for vertical scrolling InfiniteGrid
+ * @zh 用于测试垂直滚动的 InfiniteGrid 的类
+ */
 @ccclass('TestVertical')
 export class TestVertical extends Component {
 
+    /**
+     * @en The root node containing the grid
+     * @zh 包含网格的根节点
+     */
     @property(Node)
     public root: Node;
 
+    /**
+     * @en Prefab for cell type A
+     * @zh A 类型单元格的
+     */
     @property(Node)
     public cellA: Node;
 
+    /**
+     * @en Prefab for cell type B
+     * @zh B 类型单元格的
+     */
     @property(Node)
     public cellB: Node;
 
+    /**
+     * @en Input box for cell tag
+     * @zh 标签输入框
+     */
     @property(EditBox)
     public editboxInputTag: EditBox;
 
+    /**
+     * @en Input box for count
+     * @zh 数量输入框
+     */
     @property(EditBox)
     public editboxInputCount: EditBox;
 
+    /**
+     * @en Button to reload the grid
+     * @zh 重新加载网格的按钮
+     */
     @property(Button)
     public btnReload: Button;
 
+    /**
+     * @en Button to refresh the grid
+     * @zh 刷新网格的按钮
+     */
     @property(Button)
     public btnRefresh: Button;
 
-    public list: InfiniteGrid;
-    public listDelegate: ListDelegate;
+    /**
+     * @en Instance of InfiniteGrid
+     * @zh InfiniteGrid 的实例
+     */
+    private _list: InfiniteGrid;
+
+    /**
+     * @en Data array for the grid
+     * @zh 网格的数据数组
+     */
+    private m_data: {Id: number, tag: number }[] = [];
 
     protected onLoad(): void {
-        this._initGridVertical();
+        this._initListVertical();
 
         this.btnReload.node.on('click', this._listReload, this);
         this.btnRefresh.node.on('click', this._listRefresh, this);
     }
 
     private _listReload() {
-        const tag = this.editboxInputTag.string;
-        const count = Number(this.editboxInputCount.string);
-        this._updateListData(tag, count);
-        this.list.Reload();
+        this._updateListData();
+        this._list.Reload();
     }
 
     private _listRefresh() {
-        const tag = this.editboxInputTag.string;
-        const count = Number(this.editboxInputCount.string);
-        this._updateListData(tag, count);
-        this.list.Refresh();
+        this._updateListData();
+        this._list.Refresh();
     }
 
-    private _initGridVertical() {
+    private _initListVertical() {
+        this._updateListData();
+
+        // IFDataSource
+        const dataSource: IFDataSource = {
+            GetCellNumber: (): number => {
+                return this.m_data.length;
+            },
+            GetCellIdentifer: (dataIndex: number): string => {
+                return dataIndex % 3 == 2 ? 'cellA' : 'cellB';
+            },
+            GetCellSize: (dataIndex: number): Size => {
+                return dataIndex % 3 == 2 ? new Size(150, 80) : new Size(170, 110);
+            },
+            GetCellView: (dataIndex: number) => {
+                let node = dataIndex % 3 == 2 ? instantiate(this.cellA) : instantiate(this.cellB);
+                return node.getComponent('InfiniteCell') as InfiniteCell;
+            },
+            GetCellData: (dataIndex: number) => {
+                return this.m_data[dataIndex];
+            }
+        };
+
+        this._list = this.root.getComponent(InfiniteGrid);
+        this._list.Init(dataSource);
+    }
+
+    private _updateListData() {
         const tag = this.editboxInputTag.string;
         const count = Number(this.editboxInputCount.string);
 
@@ -59,60 +123,6 @@ export class TestVertical extends Component {
         for (let i = 0; i < count; i ++) {
             data.push({ Id: i, tag: tag });
         }
-
-        let listDelegate = new ListDelegate(this.cellA, this.cellB, data);
-        this.listDelegate = listDelegate;
-
-        let list = this.root.getComponent(InfiniteGrid);
-        list.Init(listDelegate);
-        this.list = list;
-    }
-
-    private _updateListData(tag: string, count: number) {
-        let data = [];
-        for (let i = 0; i < count; i ++) {
-            data.push({ Id: i, tag: tag });
-        }
-        this.listDelegate.updateDelegateData(data);
-    }
-}
-
-class ListDelegate implements IFDataSource {
-
-    private cellA: Node;
-    private cellB: Node;
-    private m_data: {Id: number, row: number, col: number}[] = [];
-
-    constructor(cellA: Node, cellB: Node, data?: any) {
-        this.cellA = cellA;
-        this.cellB = cellB;
-        if (data) {
-            this.m_data = data;
-        }
-    }
-
-    updateDelegateData(data) {
         this.m_data = data;
-    }
-
-    GetCellNumber(): number {
-        return this.m_data.length;
-    }
-
-    GetCellIdentifer(index: number): string {
-        return index % 3 == 2 ? 'cellA' : 'cellB';
-    }
-
-    GetCellSize(index: number): Size {
-        return index % 3 == 2 ? new Size(150, 80) : new Size(170, 110);
-    }
-
-    GetCellView(index: number): InfiniteCell {
-        let node = index % 3 == 2 ? instantiate(this.cellA) : instantiate(this.cellB);
-        return node.getComponent('InfiniteCell') as InfiniteCell;
-    }
-
-    GetCellData(index: number): any {
-        return this.m_data[index];
     }
 }

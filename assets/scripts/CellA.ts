@@ -11,6 +11,6 @@ export class CellA extends InfiniteCell {
     public CallBack() {};
 
     public UpdateContent(data: any) {
-        this.Label.string = `${data.Id} - ${data.tag}`;
+        this.Label.string = `${Math.floor(data.Id / 3)}     ${data.Id} - ${data.tag}`;
     }
 }
