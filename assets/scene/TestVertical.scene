@@ -1812,7 +1812,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Label",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 77
@@ -2124,7 +2124,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Label",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 84
@@ -2481,14 +2481,15 @@
     "_enabled": true,
     "__prefab": null,
     "direction": 1,
+    "align": 3,
     "paddingTop": 10,
     "paddingBottom": 20,
     "paddingLeft": 0,
     "paddingRight": 0,
     "spacingX": 20,
     "spacingY": 20,
-    "cellNum": 3,
     "elastic": true,
+    "debugContentGraphics": true,
     "_id": "13WFLmhQ1CkaMRPWQ3be5J"
   },
   {

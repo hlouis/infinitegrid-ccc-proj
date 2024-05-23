@@ -2332,14 +2332,15 @@
     "_enabled": true,
     "__prefab": null,
     "direction": 2,
+    "align": 3,
     "paddingTop": 10,
     "paddingBottom": 20,
-    "paddingLeft": 10,
+    "paddingLeft": 20,
     "paddingRight": 20,
-    "spacingX": 20,
+    "spacingX": 10,
     "spacingY": 10,
-    "cellNum": 3,
     "elastic": true,
+    "debugContentGraphics": true,
     "_id": "13WFLmhQ1CkaMRPWQ3be5J"
   },
   {
