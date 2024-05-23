@@ -40,7 +40,7 @@ The `TestHorizontal` example demonstrates how to use the `InfiniteGrid` componen
 
 1. Ensure that the anchor point of the cell node is set to the center v2(0.5, 0.5).
 
-2. Adjust cell templates (cellA and cellB) as needed to fit your design requirements.
+2. Adjust cell templates (cellA, cellB and cellC) as needed to fit your design requirements.
 
 
 ## Conclusion

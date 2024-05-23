@@ -1,4 +1,4 @@
-import { Button, Component, EditBox, Node, Size, _decorator, instantiate } from "cc";
+import { Button, Component, EditBox, Node, Size, _decorator, instantiate, size } from "cc";
 import { IFDataSource, InfiniteGrid } from "./infinite-grid/InfiniteGrid";
 import { InfiniteCell } from "./infinite-grid/InfiniteCell";
 const { ccclass, property } = _decorator;
@@ -30,6 +30,13 @@ export class TestHorizontal extends Component implements IFDataSource {
      */
     @property(Node)
     public cellB: Node;
+
+    /**
+     * @en Prefab for cell type B
+     * @zh C 类型单元格的
+     */
+    @property(Node)
+    public cellC: Node;
 
     /**
      * @en Input box for cell tag
@@ -69,7 +76,7 @@ export class TestHorizontal extends Component implements IFDataSource {
      * @en Data array for the grid
      * @zh 网格的数据数组
      */
-    private m_data: {Id: number, tag: number}[] = [];
+    private m_data: {Id: number, tag: string, cellIdentifier: string }[] = [];
 
     protected onLoad(): void {
         this.btnReload.node.on('click', this._listReload, this);
@@ -100,10 +107,18 @@ export class TestHorizontal extends Component implements IFDataSource {
         const tag = this.editboxInputTag.string;
         const count = Number(this.editboxInputCount.string);
 
+        const tmp = [
+            'cellA',
+            'cellA',
+            'cellB',
+            'cellC',
+        ]
+
         let data = [];
-        for (let i = 0; i < count; i ++) {
-            data.push({ Id: i, tag: tag });
+        for (let i = 0; i < count; i++) {
+            data.push({Id: i, tag: tag, cellIdentifier: tmp[i % tmp.length]});
         }
+
         this.m_data = data;
     }
 
@@ -115,16 +130,23 @@ export class TestHorizontal extends Component implements IFDataSource {
         return this.m_data.length;
     }
 
-    public GetCellIdentifer(dataIndex: number): string {
-        return dataIndex % 3 == 2 ? 'cellA' : 'cellB';
+    public GetCellIdentifier(dataIndex: number): string {
+        return this.m_data[dataIndex].cellIdentifier;
     }
 
     public GetCellSize(dataIndex: number): Size {
-        return dataIndex % 3 == 2 ? new Size(150, 80) : new Size(170, 110);
+        const identifier = this.GetCellIdentifier(dataIndex);
+        if (identifier === 'cellA') return size(150, 80);
+        if (identifier === 'cellB') return size(250, 110);
+        if (identifier === 'cellC') return size(300, 110);
     }
 
     public GetCellView (dataIndex: number) {
-        let node = dataIndex % 3 == 2 ? instantiate(this.cellA) : instantiate(this.cellB);
+        let node = undefined;
+        const identifier = this.GetCellIdentifier(dataIndex);
+        if (identifier === 'cellA') node = instantiate(this.cellA);
+        else if (identifier === 'cellB') node = instantiate(this.cellB);
+        else if (identifier === 'cellC') node = instantiate(this.cellC);
         return node.getComponent('InfiniteCell') as InfiniteCell;
     }
 
