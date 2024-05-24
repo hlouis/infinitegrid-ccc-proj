@@ -13,8 +13,8 @@ This repository contains two examples, TestVertical and TestHorizontal, demonstr
 1. Clone the repository:
 
 ```sh
-git clone git@gitlab.hlouis.com:ccc-extensions/infinite-grid-proj.git
-cd infinite-grid-proj
+git clone git@gitlab.hlouis.com:ccc-extensions/infinitegrid-ccc-proj.git
+cd infinitegrid-ccc-proj
 
 ```
 
@@ -30,11 +30,13 @@ git submodule update --init
 
 The `TestVertical` example demonstrates how to use the `InfiniteGrid` component to create a vertically scrolling list.
 
+The cell node is returned synchronously.
 
 ### TestHorizontal
 
 The `TestHorizontal` example demonstrates how to use the `InfiniteGrid` component to create a horizontally scrolling list.
 
+The cell node is returned asynchronously.
 
 ## Notes
 
@@ -45,4 +47,4 @@ The `TestHorizontal` example demonstrates how to use the `InfiniteGrid` componen
 
 ## Conclusion
 
-The TestVertical and TestHorizontal examples provide a basic implementation of the InfiniteGrid component. Customize the data source and cell templates to fit your specific use case. For more advanced usage, refer to the [InfiniteGrid](https://gitlab.hlouis.com/ccc-extensions/infinite-grid) documentation and API references.
+The TestVertical and TestHorizontal examples provide a basic implementation of the InfiniteGrid component. Customize the data source and cell templates to fit your specific use case. For more advanced usage, refer to the [InfiniteGrid](https://github.com/hlouis/infinitegrid-ccc) documentation and API references.
