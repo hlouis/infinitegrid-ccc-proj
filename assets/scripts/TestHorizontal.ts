@@ -141,13 +141,18 @@ export class TestHorizontal extends Component implements IFDataSource {
         if (identifier === 'cellC') return size(300, 110);
     }
 
-    public GetCellView (dataIndex: number) {
+    public GetCellView(dataIndex: number) {
         let node = undefined;
         const identifier = this.GetCellIdentifier(dataIndex);
         if (identifier === 'cellA') node = instantiate(this.cellA);
         else if (identifier === 'cellB') node = instantiate(this.cellB);
         else if (identifier === 'cellC') node = instantiate(this.cellC);
-        return node.getComponent('InfiniteCell') as InfiniteCell;
+
+        return new Promise<InfiniteCell>((resolve) => {
+            setTimeout(() => {
+                resolve(node.getComponent('InfiniteCell') as InfiniteCell);
+            }, 1000);
+        });
     }
 
     public GetCellData(dataIndex: number) {

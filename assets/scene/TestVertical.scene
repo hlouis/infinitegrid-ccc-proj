@@ -2402,7 +2402,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "root-vertical",
+    "_name": "root",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -2484,10 +2484,10 @@
     "align": 3,
     "paddingTop": 10,
     "paddingBottom": 20,
-    "paddingLeft": 0,
-    "paddingRight": 0,
-    "spacingX": 20,
-    "spacingY": 20,
+    "paddingLeft": 10,
+    "paddingRight": 10,
+    "spacingX": 10,
+    "spacingY": 10,
     "elastic": true,
     "debugContentGraphics": true,
     "_id": "13WFLmhQ1CkaMRPWQ3be5J"
